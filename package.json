@@ -1,0 +1,19 @@
+{
+  "name": "telegram_bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -e ts --exec ts-node ./src/index.ts",
+    "build": "tsc",
+    "start": "pm2 start --name JEFF_TELEGRAM_BOT ./dist/index.js",
+    "prod": "yarn build && yarn start"
+  },
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "node-telegram-bot-api": "^0.30.0"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.30.3"
+  }
+}
