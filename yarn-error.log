@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn dev
+  /usr/local/bin/node /usr/local/bin/yarn add moment
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,13 +14,17 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Volumes/jeff/Macbook/telegram_bot/package.json: Unexpected token } in JSON at position 171
-      at JSON.parse (<anonymous>)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:1136:59
-      at Generator.next (<anonymous>)
-      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
-      at <anonymous>
+  Error: https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:120793:19)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:106:13)
+      at ClientRequest.emit (events.js:208:7)
+      at TLSSocket.emitTimeout (_http_client.js:707:34)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:106:13)
+      at TLSSocket.emit (events.js:208:7)
+      at TLSSocket.Socket._onTimeout (net.js:422:8)
+      at ontimeout (timers.js:498:11)
 
 npm manifest: 
   {
@@ -29,7 +33,10 @@ npm manifest:
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-      "dev": "nodemon -e ts,tsx --exec ts-node ./src/index.ts",
+      "dev": "nodemon -e ts --exec ts-node ./src/index.ts",
+      "build": "tsc",
+      "start": "pm2 start --name JEFF_TELEGRAM_BOT ./dist/index.js",
+      "prod": "yarn build && yarn start"
     },
     "dependencies": {
       "dotenv": "^6.2.0",
