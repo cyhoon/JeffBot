@@ -20,6 +20,7 @@ const endBotAlert = () => {
   clearInterval(botAlert);
   clearInterval(reservationBotAlert);
   bot.sendMessage(MY_TELEGRAM_ID, `총 ${hour}시간 일했습니다!`);
+  hour = 0;
 }
 
 const startWork = (msg) => {
