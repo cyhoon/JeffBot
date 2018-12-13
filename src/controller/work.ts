@@ -66,4 +66,44 @@ const startWorkByHour = (msg, match) => {
   bot.sendMessage(msg.chat.id, `${startTime} 시간에 업무를 시작합니다`);
 };
 
-export { startWork, endWork, startWorkByHour };
+const stopWork = (msg, match) => {
+  const chatId: number = msg.chat.id;
+
+  if (chatId.toString() !== MY_TELEGRAM_ID) return;
+  clearInterval(botAlert);
+
+  bot.sendMessage(MY_TELEGRAM_ID, `잠깐 쉴려고 하시는군요! 지금까지 총 ${hour}시간 일했습니다!`);
+};
+
+const restartWork = (msg, match) => {
+  const chatId: number = msg.chat.id;
+
+  if (chatId.toString() !== MY_TELEGRAM_ID) return;
+
+  const currentHour = moment().set({ m: 0, s: 0 });
+  const currentHourMinute = moment();
+
+  // 현재 시간 + 분이 현재 시간보다 크다면 1시간 더해준다.
+  if (currentHourMinute.isAfter(currentHour)) {
+    currentHour.add('1', 'h');
+  }
+
+  const startMillisecond: number = currentHour.valueOf() - currentHourMinute.valueOf();
+
+  reservationBotAlert = setTimeout(() => {
+    startBotAlert(3600000);
+  }, startMillisecond);
+
+  bot.sendMessage(
+    MY_TELEGRAM_ID,
+    `${moment(currentHour).format('YYYY-MM-DD HH:mm:ss')} 시간에 일을 다시 시작합니다!`
+  );
+};
+
+export {
+  startWork,
+  endWork,
+  startWorkByHour,
+  stopWork,
+  restartWork,
+};
