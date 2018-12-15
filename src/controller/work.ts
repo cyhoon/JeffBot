@@ -11,6 +11,7 @@ let hour = 0;
 
 const startBotAlert = (startMillisecond) => {
   botAlert = setInterval(() => {
+    console.log('시간이 반복된다!');
     hour += 1;
     bot.sendMessage(MY_TELEGRAM_ID, `${hour}시간째 일하고 계시네요!`);
   }, startMillisecond);
@@ -18,7 +19,7 @@ const startBotAlert = (startMillisecond) => {
 
 const endBotAlert = () => {
   clearInterval(botAlert);
-  clearInterval(reservationBotAlert);
+  clearTimeout(reservationBotAlert);
   bot.sendMessage(MY_TELEGRAM_ID, `총 ${hour}시간 일했습니다!`);
   hour = 0;
 }
@@ -44,6 +45,9 @@ const endWork = (msg) => {
 };
 
 const startWorkByHour = (msg, match) => {
+  const chatId: number = msg.chat.id;
+  if (chatId.toString() !== MY_TELEGRAM_ID) return;
+
   const workStartHour = match[1];
 
   const nowTime: number = moment().valueOf();
@@ -61,7 +65,7 @@ const startWorkByHour = (msg, match) => {
     startBotAlert(3600000);
   }, startMillisecond);
 
-  const startTime = moment(workStartTime).format('YYYY-MM-DD HH:00:00');
+  const startTime = moment(workStartTime).format('YYYY-MM-DD HH:mm:ss');
 
   bot.sendMessage(msg.chat.id, `${startTime} 시간에 업무를 시작합니다`);
 };
@@ -70,12 +74,15 @@ const stopWork = (msg, match) => {
   const chatId: number = msg.chat.id;
 
   if (chatId.toString() !== MY_TELEGRAM_ID) return;
+
   clearInterval(botAlert);
+  clearTimeout(reservationBotAlert);
 
   bot.sendMessage(MY_TELEGRAM_ID, `잠깐 쉴려고 하시는군요! 지금까지 총 ${hour}시간 일했습니다!`);
 };
 
 const restartWork = (msg, match) => {
+  console.log('restart work');
   const chatId: number = msg.chat.id;
 
   if (chatId.toString() !== MY_TELEGRAM_ID) return;
