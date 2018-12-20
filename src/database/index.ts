@@ -20,6 +20,7 @@ const connectDatabase = async () => {
       entities: [
         __dirname + '/entity/*{.ts,.js}',
       ],
+      extra: { max: 2, min: 1 },
       synchronize: true,
       logging: false
     };
