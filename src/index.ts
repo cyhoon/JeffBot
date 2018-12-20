@@ -1,10 +1,10 @@
 require('dotenv').config();
 
-import TelegramBot from './lib/telegramBot';
-import * as work from './controller/workCtrl';
+import botServer from './botServer';
 
-TelegramBot.onText(/\/work\/start$/, work.startWork);
-TelegramBot.onText(/\/work\/start (.+)/, work.startWorkByHour);
-TelegramBot.onText(/\/work\/end$/, work.endWork);
-TelegramBot.onText(/\/work\/stop/, work.stopWork);
-TelegramBot.onText(/\/work\/restart/, work.restartWork);
+try {
+  new botServer().start();
+} catch (error) {
+  console.error('Fail execute bot server');
+  console.error(`Error message: ${error.message}`);
+}
