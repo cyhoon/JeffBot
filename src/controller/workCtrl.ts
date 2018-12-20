@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import TelegramBot from '../lib/telegramBot';
+import * as workLog from '../lib/workLog';
 
 const { MY_TELEGRAM_ID } = process.env;
 const ONE_HOUR: number = 3600000;
@@ -8,9 +9,18 @@ let botSender: NodeJS.Timeout;
 let reservationBotSender: NodeJS.Timeout;
 let historyHour: number = 0;
 
+enum WorkType {
+  START = "START",
+  RESTART = "RESTART",
+  ING = "ING",
+  END = "END",
+  STOP = "STOP"
+}
+
 const startBotSender = () => {
   botSender = setInterval(() => {
     historyHour += 1;
+    workLog.saveWorkLog(WorkType.ING);
     TelegramBot.sendMessage(MY_TELEGRAM_ID, `${historyHour}시간째 일하고 계시네요!`);
   }, ONE_HOUR);
 };
@@ -19,6 +29,7 @@ const endBotSender = () => {
   clearInterval(botSender);
   clearTimeout(reservationBotSender);
 
+  workLog.saveWorkLog(WorkType.END);
   TelegramBot.sendMessage(MY_TELEGRAM_ID, `총 ${historyHour}시간 일했습니다!`);
 
   historyHour = 0;
@@ -33,6 +44,7 @@ const startWork = (msg): void => {
 
   startBotSender();
 
+  workLog.saveWorkLog(WorkType.START);
   TelegramBot.sendMessage(chatId, '일을 시작합니다');
 };
 
@@ -66,6 +78,7 @@ const startWorkByHour = (msg, match) => {
   }
 
   reservationBotSender = setTimeout(() => {
+    workLog.saveWorkLog(WorkType.START);
     TelegramBot.sendMessage(MY_TELEGRAM_ID, `업무를 시작합니다`);
     startBotSender();
   }, startMillisecond);
@@ -84,6 +97,7 @@ const stopWork = (msg): void => {
   clearInterval(botSender);
   clearTimeout(reservationBotSender);
 
+  workLog.saveWorkLog(WorkType.STOP);
   TelegramBot.sendMessage(MY_TELEGRAM_ID, `잠깐 쉴려고 하시는군요! 지금까지 총 ${historyHour}시간 일했습니다!`);
 };
 
@@ -105,6 +119,7 @@ const restartWork = (msg): void => {
   const startMillisecond: number = currentHour.valueOf() - currentHourMinute.valueOf();
 
   reservationBotSender = setTimeout(() => {
+    workLog.saveWorkLog(WorkType.RESTART);
     startBotSender();
   }, startMillisecond);
 

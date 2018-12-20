@@ -14,6 +14,9 @@ class WorkHistory {
   historyTime: Date;
 
   @Column()
+  workType: string;
+
+  @Column()
   userId: string;
 }
 
