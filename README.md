@@ -1,5 +1,7 @@
 # JeffBot
 
+[![Build Status](https://travis-ci.com/ihello72/JeffBot.svg?token=o4yz3crNnp2xHUSU9Vwq&branch=master)](https://travis-ci.com/ihello72/JeffBot)
+
 아직은 베타버전! 나만 쓸 수 있지롱
 
 

@@ -1,4 +1,10 @@
 language: node_js
 node_js:
-  - "iojs"
-  - "10"
+  - "10.14"
+branches:
+  only:
+    - master
+notifications:
+  email:
+    recipients:
+      - dev.jeffchoi@gmail.com
