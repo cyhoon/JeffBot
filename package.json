@@ -5,20 +5,27 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -e ts --exec ts-node ./src/index.ts",
+    "test": "mocha --opts ./src/test/mocha.opts",
     "build": "tsc",
     "start": "pm2 start --name JEFF_TELEGRAM_BOT ./dist/index.js",
     "prod": "yarn build && yarn start"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
+    "chai": "^4.2.0",
     "dotenv": "^6.2.0",
+    "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
     "node-telegram-bot-api": "^0.30.0",
     "reflect-metadata": "^0.1.12",
-    "typeorm": "^0.2.9"
+    "ts-node": "^7.0.1",
+    "typeorm": "^0.2.9",
+    "typescript": "^3.2.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "@types/node-telegram-bot-api": "^0.30.3"
   }
 }
