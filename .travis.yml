@@ -15,15 +15,28 @@ before_deploy:
   - mkdir -p deploy
   - mv jeffbot-service.zip deploy/jeffbot-service.zip
 deploy:
-  provider: s3
-  access_key_id: AKIAINQ6XCJHEQTTT75Q # Travis repo settings에 설정된 값
-  secret_access_key: hi84aa0NLk+uVcqQ16+sB8GBzlFRArKM4jsixc9i # Travis repo settings에 설정된 값
-  bucket: jeffbot-service-deploy # 6-3-3에서 생성한 S3 버킷
-  region: ap-northeast-2
-  # acl: public_read
-  local_dir: deploy
-  skip_cleanup: true
-  wait-until-deployed: true
-  on:
-    repo: ihello72/JeffBot #Github 주소
-    branch: master
+  - provider: s3
+    access_key_id: AKIAINQ6XCJHEQTTT75Q # Travis repo settings에 설정된 값
+    secret_access_key: hi84aa0NLk+uVcqQ16+sB8GBzlFRArKM4jsixc9i # Travis repo settings에 설정된 값
+    bucket: jeffbot-service-deploy # 6-3-3에서 생성한 S3 버킷
+    region: ap-northeast-2
+    # acl: public_read
+    local_dir: deploy
+    skip_cleanup: true
+    wait-until-deployed: true
+    on:
+      repo: ihello72/JeffBot #Github 주소
+      branch: master
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: jeffbot-service-deploy
+    key: jeffbot-service.zip # 빌드 파일을 압축해서 전달
+    bundle_type: zip
+    application: jeffbot-service # 웹 콘솔에 등록한 CodeDeploy 어플리케이션
+    deployment_group: jeffbot-service-deploy # 웹 콘솔에 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: ihello72/JeffBot
+      branch: master
