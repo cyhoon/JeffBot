@@ -8,7 +8,7 @@ import * as TelegramBotApi from 'node-telegram-bot-api';
 import TelegramBot from '../../lib/telegramBot';
 
 describe('telegramBot', () => {
-  it ('isTure', () => {
+  it ('isTrue', () => {
     expect(1).to.be.equal(1);
   });
   // it ('isReturningTelegramInstance', () => {
