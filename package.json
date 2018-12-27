@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -e ts --exec ts-node ./src/index.ts",
-    "test": "mocha --opts ./src/test/mocha.opts",
+    "test": "nyc mocha --opts ./src/test/mocha.opts",
     "build": "tsc",
     "start": "pm2 start --name JEFF_TELEGRAM_BOT ./dist/index.js",
     "prod": "yarn build && yarn start"
@@ -18,6 +18,7 @@
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
     "node-telegram-bot-api": "^0.30.0",
+    "nyc": "^13.1.0",
     "reflect-metadata": "^0.1.12",
     "ts-node": "^7.0.1",
     "typeorm": "^0.2.9",
