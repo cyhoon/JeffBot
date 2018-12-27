@@ -10,12 +10,18 @@ notifications:
   email:
     recipients:
       - dev.jeffchoi@gmail.com
+before_deploy:
+  - zip -r jeffbot-service *
+  - mkdir -p deploy
+  - mv jeffbot-service.zip deploy/jeffbot-service.zip
 deploy:
   provider: s3
   access_key_id: AKIAINQ6XCJHEQTTT75Q # Travis repo settings에 설정된 값
   secret_access_key: hi84aa0NLk+uVcqQ16+sB8GBzlFRArKM4jsixc9i # Travis repo settings에 설정된 값
   bucket: jeffbot-service-deploy # 6-3-3에서 생성한 S3 버킷
   region: ap-northeast-2
+  acl: public_read
+  local_dir: deploy
   skip_cleanup: true
   wait-until-deployed: true
   on:
