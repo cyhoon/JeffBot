@@ -45,7 +45,7 @@ const startWork = (msg): void => {
   startBotSender();
 
   workLog.saveWorkLog(WorkType.START);
-  TelegramBot.sendMessage(chatId, '일을 시작합니다');
+  TelegramBot.sendMessage(chatId, '영훈님의 일을 시작합니다');
 };
 
 const endWork = (msg): void => {
