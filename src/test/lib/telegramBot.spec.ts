@@ -9,7 +9,7 @@ import TelegramBot from '../../lib/telegramBot';
 
 describe('telegramBot', () => {
   it ('isTrue', () => {
-    expect(1).to.be.equal(1);
+    expect(1).to.not.be.equal(1);
   });
   // it ('isReturningTelegramInstance', () => {
   //   expect(typeof TelegramBot).to.be.not.equal(TelegramBotApi);
