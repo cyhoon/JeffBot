@@ -1,3 +1,4 @@
+# travis 잠시 쓰는거 보류
 language: node_js
 node_js:
   - "10.14"
