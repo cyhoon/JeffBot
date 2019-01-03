@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import TelegramBot from '../lib/telegramBot';
-import * as workLog from '../lib/workLog';
+import { workApi } from '../lib/api';
 
 const { MY_TELEGRAM_ID } = process.env;
 const ONE_HOUR: number = 3600000;
@@ -20,7 +20,7 @@ enum WorkType {
 const startBotSender = () => {
   botSender = setInterval(() => {
     historyHour += 1;
-    workLog.saveWorkLog(WorkType.ING);
+    workApi.sendWorkHistoryTime(WorkType.ING);
     TelegramBot.sendMessage(MY_TELEGRAM_ID, `${historyHour}시간째 일하고 계시네요!`);
   }, ONE_HOUR);
 };
@@ -29,7 +29,7 @@ const endBotSender = () => {
   clearInterval(botSender);
   clearTimeout(reservationBotSender);
 
-  workLog.saveWorkLog(WorkType.END);
+  workApi.sendWorkHistoryTime(WorkType.END);
   TelegramBot.sendMessage(MY_TELEGRAM_ID, `총 ${historyHour}시간 일했습니다!`);
 
   historyHour = 0;
@@ -44,7 +44,7 @@ const startWork = (msg): void => {
 
   startBotSender();
 
-  workLog.saveWorkLog(WorkType.START);
+  workApi.sendWorkHistoryTime(WorkType.START);
   TelegramBot.sendMessage(chatId, '영훈님의 일을 시작합니다');
 };
 
@@ -78,7 +78,7 @@ const startWorkByHour = (msg, match) => {
   }
 
   reservationBotSender = setTimeout(() => {
-    workLog.saveWorkLog(WorkType.START);
+    workApi.sendWorkHistoryTime(WorkType.START);
     TelegramBot.sendMessage(MY_TELEGRAM_ID, `업무를 시작합니다`);
     startBotSender();
   }, startMillisecond);
@@ -97,7 +97,7 @@ const stopWork = (msg): void => {
   clearInterval(botSender);
   clearTimeout(reservationBotSender);
 
-  workLog.saveWorkLog(WorkType.STOP);
+  workApi.sendWorkHistoryTime(WorkType.STOP);
   TelegramBot.sendMessage(MY_TELEGRAM_ID, `잠깐 쉴려고 하시는군요! 지금까지 총 ${historyHour}시간 일했습니다!`);
 };
 
@@ -119,7 +119,7 @@ const restartWork = (msg): void => {
   const startMillisecond: number = currentHour.valueOf() - currentHourMinute.valueOf();
 
   reservationBotSender = setTimeout(() => {
-    workLog.saveWorkLog(WorkType.RESTART);
+    workApi.sendWorkHistoryTime(WorkType.RESTART);
     startBotSender();
   }, startMillisecond);
 

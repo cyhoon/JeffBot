@@ -1,18 +1,7 @@
-import database from './database';
 import TelegramBot from './lib/telegramBot';
 import * as work from './controller/workCtrl';
 
 class botServer {
-  private connectDatabase = async () => {
-    try {
-      console.info('Try connect database');
-      await database();
-      console.info('Success connection database');
-    } catch (error) {
-      console.error('Fail connection database');
-      console.error(`Error Message: ${error.message}`);
-    }
-  }
 
   private configTelegramBot = async () => {
     try {
@@ -32,7 +21,6 @@ class botServer {
   }
 
   start = async () => {
-    await this.connectDatabase();
     await this.configTelegramBot();
   }
 };
