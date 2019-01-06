@@ -5,6 +5,9 @@ node_js:
 cache: yarn
 before_install:
   - npm install -g typescript@3.2.2
+  - zip -r jeff-bot *
+  - mkdir -p deploy
+  - mv jeff-bot.zip deploy/jeff-bot.zip
 branches:
   only:
     - master
@@ -12,10 +15,6 @@ notifications:
   email:
     recipients:
       - dev.jeffchoi@gmail.com
-before_deploy:
-  - zip -r jeff-bot *
-  - mkdir -p deploy
-  - mv jeff-bot.zip deploy/jeff-bot.zip
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
