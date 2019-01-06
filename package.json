@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -e ts --exec ts-node ./src/index.ts",
     "build": "tsc",
-    "start": "pm2 start --name JEFF_TELEGRAM_BOT ./dist/index.js",
+    "start": "node ./dist/index.js",
     "prod": "yarn build && yarn start"
   },
   "dependencies": {

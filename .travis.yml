@@ -13,14 +13,14 @@ notifications:
     recipients:
       - dev.jeffchoi@gmail.com
 before_deploy:
-  - zip -r jeffbot-service *
+  - zip -r jeff-bot *
   - mkdir -p deploy
-  - mv jeffbot-service.zip deploy/jeffbot-service.zip
+  - mv jeff-bot.zip deploy/jeff-bot.zip
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-    bucket: jeffbot-service-deploy # 6-3-3에서 생성한 S3 버킷
+    bucket: jeff-service-bucket # 6-3-3에서 생성한 S3 버킷
     region: ap-northeast-2
     # acl: public_read
     local_dir: deploy
@@ -32,11 +32,11 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-    bucket: jeffbot-service-deploy
-    key: jeffbot-service.zip # 빌드 파일을 압축해서 전달
+    bucket: jeff-service-bucket
+    key: jeff-bot.zip # 빌드 파일을 압축해서 전달
     bundle_type: zip
-    application: jeffbot-service # 웹 콘솔에 등록한 CodeDeploy 어플리케이션
-    deployment_group: jeffbot-service-deploy # 웹 콘솔에 등록한 CodeDeploy 배포 그룹
+    application: jeff-service # 웹 콘솔에 등록한 CodeDeploy 어플리케이션
+    deployment_group: jeff-service-group # 웹 콘솔에 등록한 CodeDeploy 배포 그룹
     region: ap-northeast-2
     wait-until-deployed: true
     on:
