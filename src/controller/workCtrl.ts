@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as moment from '../lib/moment';
 import TelegramBot from '../lib/telegramBot';
 import { workApi } from '../lib/api';
 
@@ -67,8 +67,8 @@ const startWorkByHour = (msg, match) => {
 
   const workStartHour = match[1];
 
-  const nowTime: number = moment().valueOf();
-  const workStartTime: number = moment().set({ h: workStartHour, m: 0, s: 0}).valueOf();
+  const nowTime: number = moment.seoul().valueOf();
+  const workStartTime: number = moment.seoul().set({ h: workStartHour, m: 0, s: 0}).valueOf();
 
   const startMillisecond: number = workStartTime - nowTime;
 
@@ -83,7 +83,7 @@ const startWorkByHour = (msg, match) => {
     startBotSender();
   }, startMillisecond);
 
-  const startTime = moment(workStartTime).format('YYYY-MM-DD HH:mm:ss');
+  const startTime = moment.seoul(workStartTime).format('YYYY-MM-DD HH:mm:ss');
   TelegramBot.sendMessage(msg.chat.id, `${startTime} 시간에 업무를 시작합니다`);
 }
 
@@ -108,8 +108,8 @@ const restartWork = (msg): void => {
     return;
   }
 
-  const currentHour = moment().set({ m: 0, s: 0 });
-  const currentHourMinute = moment();
+  const currentHour = moment.seoul().set({ m: 0, s: 0 });
+  const currentHourMinute = moment.seoul();
 
   // 현재 시간 + 분이 현재 시간보다 크다면 1시간 더해준다.
   if (currentHourMinute.isAfter(currentHour)) {
@@ -125,7 +125,7 @@ const restartWork = (msg): void => {
 
   TelegramBot.sendMessage(
     MY_TELEGRAM_ID,
-    `${moment(currentHour).format('YYYY-MM-DD HH:mm:ss')} 시간에 일을 다시 시작합니다!`
+    `${moment.seoul(currentHour).format('YYYY-MM-DD HH:mm:ss')} 시간에 일을 다시 시작합니다!`
   );
 };
 
